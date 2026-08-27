@@ -1,0 +1,7 @@
+id: a_extra_run
+description: "Appendix: five distance baselines under LOLO (paper extra table)"
+command: [experiments/extra_baselines.py, run]
+data: [grambank, wals]
+prerequisites: [a_extra_prepare]
+outputs: [data/d2_model_comparison__extra.csv]
+verify: [data/d2_model_comparison__extra.csv]

@@ -1,0 +1,7 @@
+id: e1_metadata_tune
+description: "E1: metadata RF own-sweep tuned control (paper Table 'matched')"
+command: [experiments/robustness_controls_run.py, --part, metadata_tune]
+data: [grambank, wals, wikipedia_counts]
+prerequisites: []
+outputs: [data/robustness__metadata_tune_screen.csv, data/robustness__metadata_tune_refine.csv, data/robustness__metadata_l2lo.csv]
+verify: [data/robustness__metadata_tune_screen.csv, data/robustness__metadata_tune_refine.csv, data/robustness__metadata_l2lo.csv]

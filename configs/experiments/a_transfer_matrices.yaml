@@ -1,0 +1,7 @@
+id: a_transfer_matrices
+description: "Appendix: nine transfer-matrix heatmap PDFs"
+command: [figures/plot_paper_transfer_matrices.py]
+data: [grambank, wals]
+prerequisites: [e1_tiers]
+outputs: [outputs/figures/paper/ground_truth.pdf, outputs/figures/paper/similarity.pdf, outputs/figures/paper/glm.pdf, outputs/figures/paper/rf_full.pdf, outputs/figures/paper/rf_tuned.pdf, outputs/figures/paper/diff_similarity.pdf, outputs/figures/paper/diff_glm.pdf, outputs/figures/paper/diff_rf_full.pdf, outputs/figures/paper/diff_rf_tuned.pdf]
+verify: []

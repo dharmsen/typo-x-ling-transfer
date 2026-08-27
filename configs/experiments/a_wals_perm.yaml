@@ -1,0 +1,7 @@
+id: a_wals_perm
+description: "Appendix: WALS-block permutation control (10 perms x 7-config sweep)"
+command: [experiments/wals_block_permutation.py]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/wals_block_permutation.csv]
+verify: [data/wals_block_permutation.csv]

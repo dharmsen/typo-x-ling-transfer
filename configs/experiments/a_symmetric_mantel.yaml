@@ -1,0 +1,7 @@
+id: a_symmetric_mantel
+description: "Appendix: symmetric Mantel + MRM cross-check"
+command: [-c, "from experiments import linguistic_validation as v; v.run()"]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/d1_mrm_symmetric.csv, data/d1_mantel_per_factor.csv]
+verify: [data/d1_mrm_symmetric.csv, data/d1_mantel_per_factor.csv]

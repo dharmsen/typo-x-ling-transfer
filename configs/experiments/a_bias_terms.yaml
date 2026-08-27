@@ -1,0 +1,8 @@
+id: a_bias_terms
+description: "Appendix: bias-layer B terms (stdout table; verified from log)"
+command: [experiments/bias_layer_terms.py]
+data: [grambank, wals, wikipedia_counts]
+prerequisites: []
+outputs: []
+verify: []
+verify_stdout: bias_terms

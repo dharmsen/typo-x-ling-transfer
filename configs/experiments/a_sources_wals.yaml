@@ -1,0 +1,7 @@
+id: a_sources_wals
+description: "Appendix: WALS-only source comparison (n=22)"
+command: [pipeline/fit_models.py, --model, staged, --sources, wals]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/d2_model_comparison__wals.csv]
+verify: [data/d2_model_comparison__wals.csv]

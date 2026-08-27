@@ -1,0 +1,7 @@
+id: a_bias_ablation
+description: "Appendix: exhaustive bias-layer subset ablation"
+command: [experiments/bias_layer_ablation.py]
+data: [grambank, wals, wikipedia_counts]
+prerequisites: []
+outputs: [data/bias_layer_ablation.csv, data/bias_layer_ablation_loo.csv]
+verify: [data/bias_layer_ablation.csv, data/bias_layer_ablation_loo.csv]

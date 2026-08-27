@@ -1,0 +1,7 @@
+id: a_permutation_null_fig
+description: "Appendix figure: permutation null vs observed (B=200, slow)"
+command: [figures/plot_permutation_null.py, --B, "200"]
+data: [grambank, wals]
+prerequisites: []
+outputs: [outputs/figures/paper/permutation_null__lolo.pdf]
+verify: []

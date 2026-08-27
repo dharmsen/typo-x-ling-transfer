@@ -1,0 +1,7 @@
+id: e1_tiers
+description: "E1: four tiers under LOLO, Grambank+WALS (paper Table 1 rows 1-4)"
+command: [pipeline/fit_models.py, --model, staged, --sources, "grambank,wals"]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/d2_model_comparison__grambank_wals.csv, data/d2_feature_importance__grambank_wals.csv]
+verify: [data/d2_model_comparison__grambank_wals.csv]

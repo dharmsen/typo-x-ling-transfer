@@ -1,0 +1,7 @@
+id: a_floor_f60
+description: "Appendix floor sweep at 0.60 (paper floor table)"
+command: [pipeline/fit_models.py, --model, staged, --sources, "grambank,wals", --floor, "0.6"]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/d2_model_comparison__grambank_wals_f60.csv]
+verify: [data/d2_model_comparison__grambank_wals_f60.csv]

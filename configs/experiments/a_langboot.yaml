@@ -1,0 +1,7 @@
+id: a_langboot
+description: "Appendix: language-level bootstrap CI variant"
+command: [experiments/robustness_controls_run.py, --part, langboot]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/robustness__langboot.csv]
+verify: [data/robustness__langboot.csv]

@@ -1,0 +1,7 @@
+id: e1_stats
+description: "E1: permutation null (B_null=200) + cluster bootstrap CIs at the canonical B_boot=2000"
+command: [-c, "from experiments import run_experiments as el; el.run_stats(B_null=200, B_boot=2000)"]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/stats__lolo.csv]
+verify: [data/stats__lolo.csv]

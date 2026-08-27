@@ -1,0 +1,7 @@
+id: e4_feature_sweep
+description: "E4: top-k feature sweep + importance stability (paper Table 3)"
+command: [experiments/run_experiments.py, --exp, "3"]
+data: [grambank, wals]
+prerequisites: [e1_tiers]
+outputs: [data/feature_count_sweep.csv, data/importance_stability.csv]
+verify: [data/feature_count_sweep.csv, data/importance_stability.csv]

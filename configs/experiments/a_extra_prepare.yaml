@@ -1,0 +1,7 @@
+id: a_extra_prepare
+description: "Appendix: build lang2vec/URIEL/lexical pair tables (needs corpora)"
+command: [experiments/extra_baselines.py, prepare]
+data: [grambank, wals, wikipedia_text]
+prerequisites: []
+outputs: [data/l2v_similarity.csv, data/uriel_distances.csv, data/lexical_overlap.csv]
+verify: []

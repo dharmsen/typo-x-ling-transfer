@@ -1,0 +1,7 @@
+id: e3_composition
+description: "E3: composition-matched grouped-holdout control (appendix)"
+command: [experiments/robustness_controls_run.py, --part, composition]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/robustness__composition.csv]
+verify: [data/robustness__composition.csv]

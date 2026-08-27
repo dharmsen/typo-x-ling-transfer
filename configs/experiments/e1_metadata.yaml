@@ -1,0 +1,7 @@
+id: e1_metadata
+description: "E1: script/family/wikipedia metadata ridges (paper Table 1 last row)"
+command: [pipeline/fit_models.py, --sources, metadata]
+data: [grambank, wals, wikipedia_counts]
+prerequisites: []
+outputs: [data/d2_model_comparison__metadata.csv]
+verify: [data/d2_model_comparison__metadata.csv]

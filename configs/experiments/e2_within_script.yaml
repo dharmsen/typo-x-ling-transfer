@@ -1,0 +1,7 @@
+id: e2_within_script
+description: "E2: within-script typology isolation (paper Table 2 top)"
+command: [experiments/run_experiments.py, --exp, "1"]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/within_script__grambank.csv, data/within_script__grambank_wals.csv]
+verify: [data/within_script__grambank_wals.csv, data/within_script__grambank.csv]

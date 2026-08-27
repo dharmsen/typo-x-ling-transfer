@@ -1,0 +1,7 @@
+id: e1_matched_capacity
+description: "E1: matched-capacity metadata RF control (paper Table 'matched')"
+command: [experiments/matched_capacity_control.py]
+data: [grambank, wals, wikipedia_counts]
+prerequisites: []
+outputs: [data/matched_capacity_control.csv]
+verify: [data/matched_capacity_control.csv]

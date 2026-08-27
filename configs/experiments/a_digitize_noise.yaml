@@ -1,0 +1,7 @@
+id: a_digitize_noise
+description: "Appendix: digitization-noise robustness (100 perturbed refits)"
+command: [experiments/robustness_controls_run.py, --part, digitize]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/robustness__digitize.csv]
+verify: [data/robustness__digitize.csv]

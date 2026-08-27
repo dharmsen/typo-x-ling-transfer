@@ -1,0 +1,7 @@
+id: e5_flip_null
+description: "E5: residual-ranking gap test + permutation null"
+command: [experiments/residual_ranking_null.py]
+data: [grambank, wals, wikipedia_counts]
+prerequisites: []
+outputs: [data/residual_ranking_gap_test.csv, data/residual_ranking_permutation_null.csv]
+verify: [data/residual_ranking_gap_test.csv, data/residual_ranking_permutation_null.csv]

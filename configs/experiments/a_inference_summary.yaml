@@ -1,0 +1,7 @@
+id: a_inference_summary
+description: "Appendix: collected inferential statistics table"
+command: [experiments/inference_summary.py]
+data: [grambank, wals]
+prerequisites: [e1_stats, e3_ood_taxonomy, e5_flip_null]
+outputs: [data/inference_summary.csv]
+verify: [data/inference_summary.csv]

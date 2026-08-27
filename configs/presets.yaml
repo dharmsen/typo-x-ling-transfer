@@ -1,0 +1,23 @@
+# NOTE: 'appendix' assumes 'main' has already run on this checkout (several
+# appendix steps aggregate main-preset artifacts; the runner's prerequisite
+# check names what is missing). On a fresh clone use 'all'.
+presets:
+  smoke: [e1_tiers, e3_ood_taxonomy]
+  main: [e1_tiers, e1_metadata, e1_leavek_tiers, e1_matched_capacity,
+         e1_metadata_tune, e1_stats, e2_within_script, e3_ood_taxonomy,
+         e3_composition, e4_feature_sweep, e4_leakfree_sweep,
+         e5_debias_atlas24, e5_rankings, e5_full_rankings, e5_flip_null]
+  appendix: [a_permutation_null_fig, a_sources_grambank, a_sources_wals,
+             a_floor_unseen, a_floor_f60, a_floor_f50, a_floor_f40, a_floor_f0,
+             a_shared22, a_wals_perm, a_digitize_noise, a_inference_summary,
+             a_langboot, a_symmetric_mantel, a_extra_prepare, a_extra_run,
+             a_bias_terms, a_bias_ablation, a_transfer_matrices]
+  all: [e1_tiers, e1_metadata, e1_leavek_tiers, e1_matched_capacity,
+        e1_metadata_tune, e1_stats, e2_within_script, e3_ood_taxonomy,
+        e3_composition, e4_feature_sweep, e4_leakfree_sweep,
+        e5_debias_atlas24, e5_rankings, e5_full_rankings, e5_flip_null,
+        a_permutation_null_fig, a_sources_grambank, a_sources_wals,
+        a_floor_unseen, a_floor_f60, a_floor_f50, a_floor_f40, a_floor_f0,
+        a_shared22, a_wals_perm, a_digitize_noise, a_inference_summary,
+        a_langboot, a_symmetric_mantel, a_extra_prepare, a_extra_run,
+        a_bias_terms, a_bias_ablation, a_transfer_matrices]

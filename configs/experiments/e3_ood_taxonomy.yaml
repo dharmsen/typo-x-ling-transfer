@@ -1,0 +1,7 @@
+id: e3_ood_taxonomy
+description: "E3: LOLO/LOSO/LOFO taxonomy (paper Table 2 bottom)"
+command: [experiments/run_experiments.py, --exp, "4"]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/ood_taxonomy.csv]
+verify: [data/ood_taxonomy.csv]

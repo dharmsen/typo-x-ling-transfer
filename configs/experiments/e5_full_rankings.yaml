@@ -1,0 +1,7 @@
+id: e5_full_rankings
+description: "E5: full 24-language ranking tables (appendix; stdout LaTeX)"
+command: [experiments/best_source_full_rankings.py]
+data: [grambank, wals]
+prerequisites: [e5_debias_atlas24]
+outputs: []
+verify: []

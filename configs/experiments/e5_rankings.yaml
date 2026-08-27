@@ -1,0 +1,7 @@
+id: e5_rankings
+description: "E5: best-source operationalizations (paper Table 4)"
+command: [experiments/run_experiments.py, --exp, "5"]
+data: [grambank, wals]
+prerequisites: [e5_debias_atlas24]
+outputs: [data/best_source_rankings.csv, data/best_source_rankings_onscale.csv]
+verify: [data/best_source_rankings.csv, data/best_source_rankings_onscale.csv]

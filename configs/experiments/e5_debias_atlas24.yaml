@@ -1,0 +1,7 @@
+id: e5_debias_atlas24
+description: "E5 prerequisite: debiased ATLAS-24 matrices + bias layer"
+command: [pipeline/debias_matrix.py, --preset, atlas24, --label, atlas24]
+data: [grambank, wals, wikipedia_counts]
+prerequisites: []
+outputs: [outputs/debiased__atlas24/debiased_long__atlas24.csv, outputs/debiased__atlas24/bias_layer__atlas24.csv]
+verify: []

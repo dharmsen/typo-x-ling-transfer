@@ -1,0 +1,25 @@
+[project]
+name = "typology-transfer-repro"
+version = "0.1.0"
+description = "Standalone reproduction package for typological-feature transferability estimation on the ATLAS bilingual-transfer matrix"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "pandas==3.0.*",
+    "numpy==2.5.*",
+    "scipy==1.18.*",
+    "scikit-learn==1.9.*",
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "pymupdf>=1.24",
+    "pillow>=10.0",
+    "pyyaml>=6.0",
+    "lang2vec==1.1.2",
+    "setuptools<81",
+    "tokenizers>=0.20",
+]
+
+[dependency-groups]
+dev = ["pytest>=9.1.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

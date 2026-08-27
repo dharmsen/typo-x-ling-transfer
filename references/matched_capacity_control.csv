@@ -1,0 +1,4 @@
+tier,lolo_pearson,lolo_true_r2,n_features
+metadata_RF,0.581321441339803,0.26441151607013225,5
+typology_RF,0.7046264048916616,0.4917537132298816,387
+typology_RF_budget_matched,0.5971348660781758,,5

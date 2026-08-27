@@ -1,0 +1,7 @@
+id: a_floor_unseen
+description: "Appendix: pure-unseen-language protocol across floors"
+command: [experiments/floor_unseen.py]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/floor_unseen.csv]
+verify: [data/floor_unseen.csv]

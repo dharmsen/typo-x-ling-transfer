@@ -1,0 +1,7 @@
+id: a_shared22
+description: "Appendix: three sources on the 22 WALS-mapped languages"
+command: [experiments/robustness_controls_run.py, --part, shared22]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/robustness__shared22.csv]
+verify: [data/robustness__shared22.csv]

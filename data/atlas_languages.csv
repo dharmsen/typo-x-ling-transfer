@@ -1,0 +1,39 @@
+atlas_name,glottocode,grambank_name,coverage,notes
+en,stan1293,English,1.0000,English
+ru,russ1263,Russian,0.9897,Russian
+es,,,,Spanish; ABSENT from Grambank (stan1288 absent in this CLDF)
+fr,stan1290,French,1.0000,French
+de,,,,German; ABSENT from Grambank (stan1295 absent in this CLDF)
+pt,port1283,Portuguese,0.9846,Portuguese
+zh,mand1415,Mandarin Chinese,1.0000,Mandarin Chinese
+vi,viet1252,Vietnamese,0.7179,Vietnamese
+ja,nucl1643,Japanese,0.9897,Japanese (not japa1238 Japanese Sign Language)
+sw,swah1253,Swahili,0.9128,"Swahili standard (not Congo Swahili cong1236, cov 0.5692)"
+ko,kore1280,Korean,0.9487,Korean
+cy,wels1247,Welsh,0.8872,Welsh
+kk,,,,Kazakh; ABSENT from Grambank (kaza1248 absent)
+tr,nucl1301,Turkish,1.0000,Turkish
+af,,,,Afrikaans; ABSENT from Grambank (afri1274 absent; Dutch dutc1256 is a separate language)
+no,,,,Norwegian; ABSENT from Grambank (norw1258 absent)
+sv,swed1254,Swedish,0.9333,Swedish
+el,mode1248,Modern Greek,1.0000,Modern Greek (not Ancient Greek anci1242)
+bn,,,,Bengali; ABSENT from Grambank (beng1280 absent)
+ckb,cent1972,Central Kurdish,0.0769,Central Kurdish = Sorani; low coverage (0.0769); only Kurdish variety present
+fa,west2369,Western Farsi,0.9385,Persian/Farsi standard (Western Farsi)
+gu,,,,Gujarati; ABSENT from Grambank (guja1252 absent)
+mr,mara1378,Marathi,0.9744,Marathi (not Konkan Marathi konk1267)
+ps,sout2649,Southern Pashto,0.9026,used Southern Pashto (sout2649) as the only Pashto variety in Grambank
+ur,,,,Urdu; ABSENT from Grambank (urdu1245 absent)
+fil,fili1244,Filipino,0.9538,Filipino
+id,indo1316,Indonesian,0.4923,"Indonesian standard (not Colloquial Jakarta cjin1234, cov 0.8308); standard has low coverage (0.4923)"
+ms,stan1306,Standard Malay,0.9744,Standard Malay (not Ambonese/other Malay varieties)
+ca,stan1289,Catalan,0.9897,Catalan
+it,ital1282,Italian,0.9897,Italian
+ro,,,,"Romanian; ABSENT from Grambank (roma1327 absent; Aromanian arom1237, cov 0.8462, is a separate Balkan Romance language, not used)"
+ar,stan1318,Standard Arabic,0.8564,Standard Arabic / MSA (chosen over regional dialect varieties)
+he,hebr1245,Modern Hebrew,0.8564,Modern Hebrew (not Ancient Hebrew anci1244)
+hr,sout1528,Serbian-Croatian-Bosnian,0.9590,Croatian; Grambank variety is the Serbian-Croatian-Bosnian macro-variety (sout1528)
+uk,ukra1253,Ukrainian,0.8769,Ukrainian
+te,telu1262,Telugu,0.6513,Telugu; below coverage floor (0.6513)
+th,thai1261,Thai,0.5179,Thai; below coverage floor (0.5179)
+yo,,,,Yoruba; ABSENT from Grambank (yoru1240 absent)

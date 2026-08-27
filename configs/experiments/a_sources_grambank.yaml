@@ -1,0 +1,7 @@
+id: a_sources_grambank
+description: "Appendix: Grambank-only source comparison (paper sources table)"
+command: [pipeline/fit_models.py, --model, staged, --sources, grambank]
+data: [grambank]
+prerequisites: []
+outputs: [data/d2_model_comparison.csv]
+verify: [data/d2_model_comparison.csv]

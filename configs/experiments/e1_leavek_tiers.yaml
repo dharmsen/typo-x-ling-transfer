@@ -1,0 +1,7 @@
+id: e1_leavek_tiers
+description: "E1: leave-2-languages-out column for all tiers (paper Table 1)"
+command: [experiments/leave_k_languages_out_tiers.py]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/leave_k_languages_out_tiers.csv]
+verify: [data/leave_k_languages_out_tiers.csv]
