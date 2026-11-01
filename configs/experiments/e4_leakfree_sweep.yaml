@@ -1,7 +1,7 @@
 id: e4_leakfree_sweep
-description: "E4: leak-free per-fold top-k selection (paper Table 3 row 2)"
+description: "E4: nested leak-free per-fold top-k sweep (paper Table 3 leak-free column)"
 command: [experiments/run_experiments.py, --exp, 3b]
 data: [grambank, wals]
 prerequisites: [e4_feature_sweep]
-outputs: [data/leakfree_topk_sweep.csv]
-verify: [data/leakfree_topk_sweep.csv]
+outputs: [data/leakfree_topk_sweep.csv, data/leakfree_seed_stability.csv]
+verify: [data/leakfree_topk_sweep.csv, data/leakfree_seed_stability.csv]

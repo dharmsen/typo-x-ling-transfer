@@ -1,0 +1,7 @@
+id: a_nested_paired
+description: "Appendix: paired bootstrap of the nested typology-vs-metadata rho difference (Delta rho +0.009, CI [-0.17, 0.24])"
+command: [experiments/nested_paired.py]
+data: [grambank, wals]
+prerequisites: [a_nested_tuning]
+outputs: [data/rf_sweep_nested_paired.csv]
+verify: [data/rf_sweep_nested_paired.csv]

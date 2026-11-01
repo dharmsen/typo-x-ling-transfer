@@ -31,6 +31,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import Ridge
 
 from pipeline import _grambank
+from pipeline import checkpoint as cp
 from pipeline import fit_models as fm
 from pipeline import paths
 
@@ -348,26 +349,45 @@ def experiment3(ks=(1, 5, 10, 25, 50, 100, 200)):
 # Experiment 3b: leak-free top-k ablation (E4 selection-optimism control)
 # ---------------------------------------------------------------------------
 
-def _leakfree_fold_ranking(imp, fold_i):
-    """Feature ranking for LOLO fold i under leave-the-test-fold-out selection:
-    mean per-fold importance over all folds EXCEPT fold i, so fold i's held-out
-    measurement never touches its own feature selection. NaN (feature has no
-    one-hot columns in those folds) sorts last."""
-    return (imp.drop(columns=["f%d" % fold_i]).mean(axis=1)
-            .sort_values(ascending=False, na_position="last"))
+def _nested_sub_setup(setup, fold_i):
+    """Setup restricted to fold i's TRAINING pairs: every language, pair and
+    inner fold excludes fold i's held-out language entirely (the ranking must
+    be recomputed entirely inside each outer training set, not averaged over
+    the other outer folds, which still contain the held-out language in their
+    train and test sets)."""
+    tr, te = setup["folds"][fold_i]
+    held = setup["langs_ids"][fold_i]
+    assert all(held in p for p in (setup["pairs"][j] for j in te)), \
+        "fold i's test pairs must all contain langs_ids[i]"
+    sub_langs = [g for g in setup["langs_ids"] if g != held]
+    sub_pairs = [setup["pairs"][j] for j in tr]
+    return {"langs_ids": sub_langs, "wide": setup["wide"], "pairs": sub_pairs,
+            "y": np.asarray(setup["y"], dtype=float)[tr],
+            "folds": fm.lolo_folds(sub_pairs, sub_langs)}
 
 
-def _leakfree_topk_lolo(setup, imp, k, factory=None):
+def _nested_fold_ranking(setup, fold_i, feat_cols, model_factory=None, seed=42):
+    """Feature ranking for LOLO fold i, computed by inner LOLO permutation
+    importance entirely inside fold i's training pairs: no pair containing the
+    held-out language touches the ranking at any stage. NaN (feature has no
+    one-hot columns in the inner folds) sorts last."""
+    sub = _nested_sub_setup(setup, fold_i)
+    imp = _per_fold_importance(sub, feat_cols, model_factory, seed)
+    return imp.mean(axis=1).sort_values(ascending=False, na_position="last")
+
+
+def _leakfree_topk_lolo(setup, rankings, k, factory=None):
     """LOLO predictions where each fold's model trains on that fold's OWN top-k
-    features (by _leakfree_fold_ranking): the held-out language touches neither
-    the fit nor the feature ranking. Factory defaults to the E4 sweep RF (mf=0.5)."""
+    features (rankings[i], from _nested_fold_ranking): the held-out language
+    touches neither the fit nor the feature ranking. Factory defaults to the
+    E4 sweep RF (mf=0.5)."""
     factory = factory or (lambda: RandomForestRegressor(
         n_estimators=200, random_state=42, max_features=0.5))
     wide = setup["wide"].reindex(index=setup["langs_ids"])
     y = np.asarray(setup["y"], dtype=float)
     preds = np.full(len(y), np.nan)
     for i, (tr, te) in enumerate(setup["folds"]):
-        top = set(_leakfree_fold_ranking(imp, i).head(k).index)
+        top = set(rankings[i].head(k).index)
         cols = [c for c in wide.columns if c in top]   # canonical wide order
         M, foc, _, feats, idx = _grambank._one_hot_layout(wide, cols)
         pos = {g: j for j, g in enumerate(idx)}
@@ -378,29 +398,62 @@ def _leakfree_topk_lolo(setup, imp, k, factory=None):
     return preds
 
 
-def experiment3b(ks=(1, 5, 10, 25, 50, 100, 200)):
+def _seed_stability(setup, rankings, seeds=(42, 43, 44), k=200, factory=None):
+    """One row of seed-stability statistics: LOLO rho of the full feature set
+    and of the leak-free top-k pipeline, each mean +- std over `seeds`. The
+    factory maps a seed to a fresh unfitted model constructor."""
+    rf = factory or (lambda seed: lambda: RandomForestRegressor(
+        n_estimators=200, random_state=seed, max_features=0.5))
+    M, foc, _, feats, idx = _grambank._one_hot_layout(
+        setup["wide"].reindex(index=setup["langs_ids"]),
+        list(setup["wide"].columns))
+    X_full = fm.stage2_design(setup["pairs"], {g: j for j, g in enumerate(idx)},
+                              M, foc, len(feats))
+    full = [fm.pearson(setup["y"],
+                       fm.cv_predict(X_full, setup["y"], setup["folds"], rf(sd)))
+            for sd in seeds]
+    leak = [fm.pearson(setup["y"],
+                       _leakfree_topk_lolo(setup, rankings, k, factory=rf(sd)))
+            for sd in seeds]
+    return {"full_mean": float(np.mean(full)), "full_std": float(np.std(full)),
+            "leakfree_mean": float(np.mean(leak)), "leakfree_std": float(np.std(leak)),
+            "k": k, "n_seeds": len(seeds)}
+
+
+def experiment3b(ks=(1, 5, 10, 25, 50, 100, 200), ckpt_dir=None):
     """RQ3 ablation: is E4's top-k peak (rho 0.742 at k=200 vs 0.705 full) real,
     or selection optimism? The E4 sweep orders features by the global d2 ranking,
     whose importance is the drop in the FULL LOLO metric -- the same folds the
     sweep is re-evaluated on -- so every k<387 point is optimistically biased.
-    Here each fold selects its own top-k by leave-the-test-fold-out importance
-    (fold i's ranking excludes fold i's held-out measurement), removing that
-    leakage. Ranking uses the Ridge per-fold permutation importance (same
-    protocol as the fold-stability analysis: deterministic, fast); evaluation
-    uses the same RF (mf=0.5) as the sweep. Caveat: fold i's ranking still sees
-    the OTHER folds' measurements, so a trace of aggregate selection optimism
-    remains (fully nested inner CV is infeasible at n=24); each fold's own
-    prediction is leak-free by construction."""
+    Here each fold selects its own top-k by NESTED importance: an inner LOLO
+    over that fold's training pairs only, so the held-out language touches
+    neither the fit nor the ranking at any stage. Ranking uses the Ridge
+    permutation importance (same protocol as the fold-stability analysis:
+    deterministic, fast); evaluation uses the same RF (mf=0.5) as the sweep.
+    With `ckpt_dir`, per-fold nested rankings are checkpointed (JSONL) and the
+    run can be interrupted and resumed: completed folds are skipped on restart."""
     print("\n" + "=" * 78)
     print("EXP 3b — Leak-free top-k feature sweep (Grambank+WALS)")
     print("=" * 78)
     s = load_setup(sources=("grambank", "wals"))
     all_cols = list(s["wide"].columns)
-    print("computing per-fold Ridge permutation importance (%d features x %d folds)..."
-          % (len(all_cols), len(s["folds"])))
-    imp = _per_fold_importance(s, all_cols)
 
-    rows = [{"k": k, "lolo_pearson": fm.pearson(s["y"], _leakfree_topk_lolo(s, imp, k))}
+    ck = Path(ckpt_dir or (HERE / "outputs" / "nested")) / "t1_fold_rankings.jsonl"
+    done = {r["fold"]: pd.Series(dict(r["ranking"])) for r in cp.load_jsonl(ck)}
+    rankings = []
+    for i in range(len(s["folds"])):
+        if i in done:
+            print("  fold %2d/%d: ranking loaded from checkpoint" % (i + 1, len(s["folds"])))
+            rankings.append(done[i])
+            continue
+        print("  fold %2d/%d: nested inner LOLO importance (%d features)..."
+              % (i + 1, len(s["folds"]), len(all_cols)))
+        r = _nested_fold_ranking(s, i, all_cols)
+        rankings.append(r)
+        cp.append_jsonl(ck, {"fold": i,
+                             "ranking": [[feat, float(v)] for feat, v in r.items()]})
+
+    rows = [{"k": k, "lolo_pearson": fm.pearson(s["y"], _leakfree_topk_lolo(s, rankings, k))}
             for k in ks]
     rows.append({"k": len(all_cols),
                  "lolo_pearson": fm.pearson(s["y"], rf_predict_on_features(s, all_cols, max_features=0.5))})
@@ -415,18 +468,11 @@ def experiment3b(ks=(1, 5, 10, 25, 50, 100, 200)):
     print(merged[["k", "leakfree", "globalrank"]].to_string(
         index=False, float_format=lambda v: "%.3f" % v))
 
-    seeds = (42, 43, 44)
-    rf = lambda seed: lambda: RandomForestRegressor(
-        n_estimators=200, random_state=seed, max_features=0.5)
-    M, foc, _, feats, idx = _grambank._one_hot_layout(
-        s["wide"].reindex(index=s["langs_ids"]), all_cols)
-    X_full = fm.stage2_design(s["pairs"], {g: j for j, g in enumerate(idx)}, M, foc, len(feats))
-    full = [fm.pearson(s["y"], fm.cv_predict(X_full, s["y"], s["folds"], rf(sd)))
-            for sd in seeds]
-    k200 = [fm.pearson(s["y"], _leakfree_topk_lolo(s, imp, 200, factory=rf(sd)))
-            for sd in seeds]
-    print("seed stability (seeds %s): full-387 rho %.3f +- %.3f | leak-free k=200 rho %.3f +- %.3f"
-          % (list(seeds), np.mean(full), np.std(full), np.mean(k200), np.std(k200)))
+    stab = _seed_stability(s, rankings)
+    _commit_table("leakfree_seed_stability.csv", pd.DataFrame([stab]))
+    print("seed stability (seeds 42,43,44): full-387 rho %.3f +- %.3f | leak-free k=200 rho %.3f +- %.3f"
+          % (stab["full_mean"], stab["full_std"],
+             stab["leakfree_mean"], stab["leakfree_std"]))
     return sweep
 
 

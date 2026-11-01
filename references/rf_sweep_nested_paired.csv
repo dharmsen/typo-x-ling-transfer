@@ -1,0 +1,2 @@
+metric,B,estimate,ci_lo,ci_hi,p_value,model_a,model_b
+pearson,2000,0.008700212029200793,-0.1700485822703909,0.24349779079783604,0.8925537231384307,grambank+wals (nested),metadata (nested)

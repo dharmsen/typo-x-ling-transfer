@@ -9,7 +9,8 @@ presets:
          e5_debias_atlas24, e5_rankings, e5_full_rankings, e5_flip_null]
   appendix: [a_permutation_null_fig, a_sources_grambank, a_sources_wals,
              a_floor_unseen, a_floor_f60, a_floor_f50, a_floor_f40, a_floor_f0,
-             a_shared22, a_wals_perm, a_digitize_noise, a_inference_summary,
+             a_shared22, a_wals_perm, a_nested_tuning, a_nested_paired,
+             a_digitize_noise, a_inference_summary,
              a_langboot, a_symmetric_mantel, a_extra_prepare, a_extra_run,
              a_bias_terms, a_bias_ablation, a_transfer_matrices]
   all: [e1_tiers, e1_metadata, e1_leavek_tiers, e1_matched_capacity,
@@ -18,6 +19,7 @@ presets:
         e5_debias_atlas24, e5_rankings, e5_full_rankings, e5_flip_null,
         a_permutation_null_fig, a_sources_grambank, a_sources_wals,
         a_floor_unseen, a_floor_f60, a_floor_f50, a_floor_f40, a_floor_f0,
-        a_shared22, a_wals_perm, a_digitize_noise, a_inference_summary,
+        a_shared22, a_wals_perm, a_nested_tuning, a_nested_paired,
+        a_digitize_noise, a_inference_summary,
         a_langboot, a_symmetric_mantel, a_extra_prepare, a_extra_run,
         a_bias_terms, a_bias_ablation, a_transfer_matrices]

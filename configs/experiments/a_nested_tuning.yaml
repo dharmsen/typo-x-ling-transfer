@@ -1,0 +1,19 @@
+id: a_nested_tuning
+description: "Appendix: nested hyperparameter selection, four source groups (nested typology rho 0.580 vs 0.706 global)"
+command: [experiments/nested_tuning.py]
+data: [grambank, wals]
+prerequisites: []
+outputs: [data/rf_sweep_nested_summary.csv,
+          data/rf_sweep_nested_folds__grambank_wals.csv,
+          data/rf_sweep_nested_folds__grambank.csv,
+          data/rf_sweep_nested_folds__wals.csv,
+          data/rf_sweep_nested_folds_metadata.csv,
+          data/rf_sweep_nested_preds__grambank_wals.csv,
+          data/rf_sweep_nested_preds__grambank.csv,
+          data/rf_sweep_nested_preds__wals.csv,
+          data/rf_sweep_nested_preds_metadata.csv]
+verify: [data/rf_sweep_nested_summary.csv,
+         data/rf_sweep_nested_folds__grambank_wals.csv,
+         data/rf_sweep_nested_folds__grambank.csv,
+         data/rf_sweep_nested_folds__wals.csv,
+         data/rf_sweep_nested_folds_metadata.csv]
